@@ -95,12 +95,22 @@ function closeMiniMessageStack(stack, tagName) {
     return html;
 }
 
+function normalizeMiniMessageSource(value) {
+    return String(value ?? '')
+        .replace(/\\(?=<\/?[^>]+>)/g, '')
+        .replace(/&lt;|&#60;|&#x3c;/gi, '<')
+        .replace(/&gt;|&#62;|&#x3e;/gi, '>')
+        .replace(/&quot;|&#34;|&#x22;/gi, '"')
+        .replace(/&#39;|&#x27;/gi, "'")
+        .replace(/&amp;/gi, '&');
+}
+
 /**
  * 将 MiniMessage 的常用格式标签转换成安全 HTML。
  * 支持渐变、Minecraft 命名颜色、<#RRGGBB>、<bold> 和 <b>。
  */
 function renderMiniMessage(value) {
-    const source = String(value ?? '');
+    const source = normalizeMiniMessageSource(value);
     const tokenPattern = /<[^>]+>/g;
 
     let result = '';
@@ -270,7 +280,7 @@ async function loadPlayer(playerName) {
 
         setHTML('surName', player.surname ? renderMiniMessage(player.surname) : '—');
         setHTML('formattedName', player.formattedName ? renderMiniMessage(player.formattedName) : '—');
-        setHTML('about', escapeHTML(player.about || '—'));
+        setHTML('about', player.about ? renderMiniMessage(player.about) : '—');
         setHTML('townJoined', linkTo('town', player.town?.name));
         setHTML('nationJoined', linkTo('nation', player.nation?.name));
 
