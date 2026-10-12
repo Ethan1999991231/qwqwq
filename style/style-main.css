@@ -1,0 +1,506 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap");
+
+:root {
+  --display-font: "Space Grotesk", "Segoe UI", sans-serif;
+  --body-font: "Manrope", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --primary: #2563eb;
+  --primary-strong: #1d4ed8;
+  --secondary: #0f766e;
+  --accent: #ea580c;
+  --bg-page: #e9eef5;
+  --bg-surface: rgba(255, 255, 255, 0.8);
+  --bg-soft: #f8fafc;
+  --bg-hover: #eff6ff;
+  --border: rgba(255, 255, 255, 0.54);
+  --border-strong: rgba(37, 99, 235, 0.28);
+  --text: #09111f;
+  --text-secondary: #334155;
+  --text-muted: #475569;
+  --shadow-sm: 0 12px 28px rgba(15, 23, 42, 0.14);
+  --shadow-md: 0 24px 60px rgba(15, 23, 42, 0.2);
+  --radius-xl: 32px;
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --radius-full: 999px;
+  --transition: 0.22s ease;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--body-font);
+  color: var(--text);
+  line-height: 1.75;
+  overflow-x: hidden;
+  background:
+    url("../emc.png") center center / cover no-repeat fixed,
+    linear-gradient(180deg, #ffffff 0%, var(--bg-page) 100%);
+  position: relative;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before,
+body::after {
+  background: none;
+  z-index: 0;
+}
+
+#pageHeader,
+#mainNav,
+main,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+#pageHeader {
+  padding: 1.25rem 1.5rem 0.85rem;
+  text-align: center;
+}
+
+#pageHeader h1 {
+  display: inline-block;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: linear-gradient(135deg, #eff6ff 0%, #93c5fd 28%, #2563eb 68%, #0f766e 100%);
+  box-shadow: none;
+  font-family: var(--display-font);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 10px 28px rgba(15, 23, 42, 0.22);
+}
+
+#mainNav {
+  position: sticky;
+  top: 12px;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  width: min(980px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: var(--radius-full);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+#mainNav a {
+  flex: 0 1 132px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 2.8rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.93rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  transition:
+    transform var(--transition),
+    background var(--transition),
+    color var(--transition),
+    box-shadow var(--transition);
+}
+
+#mainNav a:hover {
+  color: var(--primary);
+  background: var(--bg-hover);
+}
+
+#mainNav a#selected {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.2);
+}
+
+main {
+  max-width: 980px;
+  margin: 1.35rem auto 0;
+  padding: 0 1.2rem 3rem;
+}
+
+#mainArea {
+  position: relative;
+  overflow: hidden;
+  padding: 1.45rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+#serverImformations {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#serverImformations > h2,
+#serverImformations > h3,
+#serverImformations > div,
+#serverImformations > button,
+#serverImformations > p {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-sm);
+}
+
+#currentVersionText {
+  padding: 1.8rem 1.6rem;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--text);
+  border-color: rgba(37, 99, 235, 0.14);
+}
+
+#currentVersionText::after {
+  content: "";
+  position: absolute;
+  inset: auto 1.25rem 0.9rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.16), transparent);
+}
+
+#currentVersion {
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 1.2em;
+}
+
+#onlinePlayersText,
+#votePartyText {
+  padding: 1.2rem 1.45rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+}
+
+#onlinePlayers,
+#maxPlayers {
+  color: var(--primary);
+  font-size: 1.42rem;
+  font-weight: 800;
+}
+
+#vpRemains {
+  color: var(--accent);
+  font-size: 1.28rem;
+  font-weight: 800;
+}
+
+#serverStatus,
+#playerStatus {
+  padding: 1.2rem 1.45rem;
+  line-height: 2;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.8);
+  font-weight: 700;
+}
+
+#serverStatus a,
+#playerStatus a,
+#serverImformations a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 900;
+}
+
+#serverStatus a:hover,
+#playerStatus a:hover,
+#serverImformations a:hover {
+  text-decoration: underline;
+}
+
+#dayProgressBar {
+  width: 100%;
+  height: 8px;
+  margin-top: 0.55rem;
+  border: none;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #dbe4f0;
+}
+
+#dayProgressBar::-webkit-progress-bar {
+  background: #dbe4f0;
+}
+
+#dayProgressBar::-webkit-progress-value {
+  background: linear-gradient(90deg, #2563eb, #0ea5e9);
+}
+
+button {
+  align-self: center;
+  min-width: 190px;
+  padding: 0.98rem 1.7rem;
+  border: none;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+  color: #ffffff;
+  font-family: var(--body-font);
+  font-size: 0.96rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    filter var(--transition);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.2);
+  filter: saturate(1.05);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(0);
+  animation: ripple-effect 0.5s ease-out;
+  pointer-events: none;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+#refreshingStatus {
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+#serverImformations > h2:not(#currentVersionText) {
+  padding: 1.2rem 1.35rem;
+  font-family: var(--display-font);
+  font-size: 1.24rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  border-color: rgba(37, 99, 235, 0.1);
+}
+
+#serverImformations > h3:not(#onlinePlayersText):not(#votePartyText) {
+  padding: 1rem 1.35rem;
+  font-size: 0.98rem;
+  font-weight: 900;
+  color: var(--secondary);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+#serverImformations > p {
+  padding: 1rem 1.35rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+#serverImformations > p strong {
+  color: var(--text);
+}
+
+body.page-home #mainArea,
+body.page-about #mainArea {
+  border-radius: 36px;
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid #dbe4f0;
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  margin-top: 1rem;
+  color: var(--text);
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+footer {
+  padding: 0 1.25rem 2.5rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--primary);
+}
+
+.interactive-surface {
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.interactive-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(37, 99, 235, 0.14), transparent 55%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+}
+
+.interactive-surface:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+
+.interactive-surface:hover::before {
+  opacity: 1;
+}
+
+.interactive-surface > * {
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background: rgba(37, 99, 235, 0.16);
+  color: var(--text);
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  #pageHeader {
+    padding: 0.9rem 0.75rem 0.65rem;
+  }
+
+  #mainNav {
+    width: calc(100% - 1rem);
+    top: 8px;
+    padding: 0.6rem;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.3rem;
+    overflow: visible;
+  }
+
+  #mainNav::-webkit-scrollbar {
+    display: none;
+  }
+
+  #mainNav a {
+    flex: none;
+    min-width: 0;
+    width: 100%;
+    padding: 0.55rem 0.2rem;
+    font-size: clamp(0.66rem, 2.5vw, 0.78rem);
+    white-space: nowrap;
+  }
+
+  main {
+    padding: 0 1rem 2.2rem;
+  }
+
+  #mainArea {
+    padding: 1rem;
+    border-radius: 26px;
+  }
+
+  #serverStatus,
+  #playerStatus {
+    line-height: 1.85;
+  }
+
+  button {
+    width: 100%;
+  }
+}

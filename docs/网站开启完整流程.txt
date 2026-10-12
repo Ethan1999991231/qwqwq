@@ -1,0 +1,212 @@
+EarthMC 网站开启完整流程与稳定性检查
+更新日期：2026-10-12
+项目目录：E:\网站\ethan
+
+一、项目怎样运行
+
+这是静态 HTML/CSS/JavaScript 网站，不需要安装 Node.js、PHP、数据库，也不需要 npm install。
+项目自带 Windows Nginx：tools\nginx-1.30.0\nginx.exe。
+nginx.conf 同时负责提供网页和代理外部数据：
+  /api/v4                    -> EarthMC 服务器信息
+  /api/v4/players             -> 玩家信息，保留 POST 请求体
+  /avatar/无横线的玩家UUID     -> MCHeads，128 像素头像
+  /avatar-backup/同一个UUID    -> Minotar，128 像素头像
+浏览器请求本网站的 /api/、/avatar/ 和 /avatar-backup/，由服务器访问上游。
+直接用 file:/// 打开 HTML 只能预览页面，不能正确验证这些同域接口。查询功能请通过 HTTP 或 HTTPS 访问。
+
+二、先在你现在的电脑启动
+
+1. 保持文件夹结构完整，尤其是 nginx.conf、mime.types、javascript、style 和 tools。
+2. 双击“启动EarthMC.bat”。脚本先检查配置，正常后启动 Nginx；已有本项目 PID 时会尝试重载。
+3. 浏览器打开 http://127.0.0.1/index.html。
+4. 打开 http://127.0.0.1/about.html 核对署名。
+5. 查询玩家 1stikun，检查玩家信息和头像能否出现。
+
+也可以在 PowerShell 中手动启动：
+  Set-Location -LiteralPath 'E:\网站\ethan'
+  .\tools\nginx-1.30.0\nginx.exe -p ./ -c nginx.conf -t
+  .\tools\nginx-1.30.0\nginx.exe -p ./ -c nginx.conf
+
+检查成功时会显示 syntax is ok 和 test is successful。
+必须先切换到项目目录，并使用 -p ./。本次实测发现，将带中文的绝对路径直接作为 Nginx 的 -p 参数会产生路径编码错误；相对前缀可以正常工作。
+
+修改配置后双击“重启EarthMC.bat”，或执行：
+  .\tools\nginx-1.30.0\nginx.exe -p ./ -c nginx.conf -t
+  .\tools\nginx-1.30.0\nginx.exe -p ./ -c nginx.conf -s reload
+
+关闭时双击“关闭EarthMC.bat”，或执行：
+  .\tools\nginx-1.30.0\nginx.exe -p ./ -c nginx.conf -s quit
+
+停止脚本只通过本项目的 PID 发送退出指令，不会按 nginx.exe 进程名批量终止别的网站。
+启动脚本先检查 PID 对应的进程。仅当该进程不存在时，它才把遗留 PID 备份为 logs\nginx.pid.stale-时间编号，然后重新启动。
+如果 PID 属于本项目的 Nginx，它会重载配置；如果属于其他进程或无法验证，脚本会停止并提示检查，不会自动删除或终止它。
+脚本使用专用 EMC_NGINX_EXE 变量，并在本地作用域清空旧脚本可能留下的 NGINX 变量。NGINX 是 Nginx 自己的保留变量，不要将它设为可执行文件路径。
+配置检查可能创建空 PID 文件；启动脚本会把空文件当作尚未启动，并在启动后核对真实 PID 和进程路径。三份 BAT 均使用 Windows 的 CRLF 换行。
+
+三、在哪里找域名
+
+希望使用中文服务、国内付款及备案流程时，建议先看阿里云/万网。
+注册网址：https://wanwang.aliyun.com/
+官方注册流程：https://help.aliyun.com/zh/dws/getting-started
+注册时准备域名持有者信息模板，按控制台要求完成实名认证。
+
+能够使用国际付款方式，愿意使用 Cloudflare DNS 时，可以考虑 Cloudflare Registrar。
+入口：https://www.cloudflare.com/products/registrar/
+注册与续费按注册局成本定价；购买前同时比较注册价和续费价。
+价格表：https://pricing.registrar.cloudflare.com/
+该注册商要求使用 Cloudflare 的域名服务器：
+https://developers.cloudflare.com/registrar/get-started/register-domain/
+
+优先挑一个容易记、容易输入的英文域名，例如自己的名称加 emc，后缀可先比较 .com 和 .net。
+示例 mc.example.com 只是本文占位符，不是已经为你注册的域名。
+开启账户两步验证和自动续费。不要只看首年优惠，也要确认下一年的费用。
+
+四、准备能够持续提供服务的机器
+
+本机可以用于体验和测试。公开网站需要机器持续联网，关闭电脑、休眠或断网都会导致网站停止。
+使用云服务器时，先确认具有公网 IP，并从服务器实际测试 EarthMC、MCHeads 和 Minotar 的可达性。
+面向国内用户时，同时测试国内用户到服务器、服务器到上游这两段链路；购买域名本身不会改善网络。
+下面的公网步骤沿用当前 Windows 项目。若使用 Windows 云服务器，复制整个项目并保持原有相对路径，然后按第二节先完成本机测试。
+
+长期对外服务或需要更多并发时，建议使用 Linux 上的 Nginx 正式部署方案。Nginx 官方将 Windows 版本定位为 beta，不能把本次少量测试当作高负载能力保证：
+https://nginx.org/en/docs/windows.html
+
+中国内地服务器对外提供网站服务前，按接入服务商和当地要求办理 ICP 备案，并核对后续联网备案要求：
+https://help.aliyun.com/zh/icp-filing/basic-icp-service/getting-started/quick-start-for-icp-filing-for-personal-websites
+购买服务器和域名前先确认是否满足备案条件，避免付费后才发现材料或产品条件不合适。
+
+五、反代已经怎样配置，如何核对
+
+当前 nginx.conf 已包含完整 API 和两个头像反代，不需要再给前端填写国外 API 地址。
+/api/v4/players 会去掉 /api 前缀，转发为上游 /v4/players，保留查询参数、HTTP 方法和 JSON 请求体。
+动态上游域名通过 resolver 解析，DNS 缓存有效期为 300 秒；DNS 服务器必须在部署机器上可用。
+API 的连接超时为 10 秒，发送和读取超时为 30 秒。
+头像连接超时为 5 秒，读取超时为 10 秒；主接口失败后只尝试一次备用接口。
+上游读取超时是两次读取之间的超时，并不是整个下载一定在对应秒数内结束。
+玩家查询前端另外设置了 35 秒请求总超时，HTTP 错误会显示失败提示并恢复查询按钮。
+
+在启动服务器的电脑上打开：
+  http://127.0.0.1/api/v4
+应该得到 JSON，而不是 HTML 错误页。
+下面是已验证的头像样例：
+  http://127.0.0.1/avatar/069a79f444e94726a5befca90e38aaf5
+  http://127.0.0.1/avatar-backup/069a79f444e94726a5befca90e38aaf5
+应该得到 PNG 图片。真实玩家使用 EarthMC 返回的 UUID，去掉横线后访问这两个路径。
+
+反代说明：
+https://nginx.org/en/docs/http/ngx_http_proxy_module.html
+头像接口说明：
+https://mc-heads.net/
+https://minotar.net/
+
+六、绑定域名并开启 HTTPS
+
+下面推荐用 Caddy 处理公网 HTTPS，当前 Nginx 继续处理网页、API 和头像，避免手动管理 HTTPS 证书。
+最终访问链路：浏览器 -> Caddy 的 HTTPS 入口 -> 本机 Nginx -> EarthMC/头像服务。
+这是一套部署步骤，当前没有替你购买服务器、域名或发布公网网站。
+
+1. 在域名 DNS 控制台添加 A 记录，例如：
+   记录名称：mc
+   类型：A
+   记录值：服务器公网 IPv4
+   结果：mc.你的域名
+   只有 IPv6 确实可用时才添加 AAAA。首次配置 Cloudflare 时可以先选择“仅 DNS”以便排查。
+
+2. 把 nginx.conf 中的 listen 80 改为：
+   listen 127.0.0.1:8080;
+   按第二节先检查配置，再重载或启动。
+   验证 http://127.0.0.1:8080/index.html 和 http://127.0.0.1:8080/api/v4。
+   这时启动脚本打印的默认地址没有包含 8080，请以实际配置的端口为准。
+
+3. 从 Caddy 官方网站下载 Windows 版本，放到独立的服务目录，例如 E:\WebService\caddy.exe：
+   https://caddyserver.com/download
+   https://caddyserver.com/docs/install
+
+4. 在 E:\WebService 新建名为 Caddyfile 的 UTF-8 文本文件，内容如下，替换域名：
+
+   mc.example.com {
+       reverse_proxy 127.0.0.1:8080
+   }
+
+5. 在 PowerShell 执行：
+   Set-Location -LiteralPath 'E:\WebService'
+   .\caddy.exe validate --config .\Caddyfile --adapter caddyfile
+   .\caddy.exe run --config .\Caddyfile --adapter caddyfile
+
+6. 云安全组、系统防火墙以及必要的路由器转发需要允许公网 TCP 80、443 到 Caddy。
+   不要把本机 Nginx 的 8080 向公网开放。部署机器还需要访问上游 HTTPS 和配置的 DNS。
+   域名指向正确机器、证书签发条件满足时，Caddy 会自动申请与续期 HTTPS 证书。
+   浏览器打开 https://mc.你的域名/index.html，再验证查询和头像。
+
+7. 若之后启用 Cloudflare 代理，在源站 HTTPS 正常且证书满足要求后选择 Full (strict)。
+   不要把 Cloudflare CDN 可用等同于国内所有运营商都能快速访问，实际速度仍需从用户网络测试。
+   https://developers.cloudflare.com/ssl/origin-configuration/ssl-modes/full-strict/
+
+公网入口、自动证书与反代官方说明：
+https://caddyserver.com/docs/quick-starts/reverse-proxy
+https://caddyserver.com/docs/automatic-https
+
+七、开机启动与日常维护
+
+命令行窗口只适合初次验证。长期运行时，让 Nginx 和 Caddy 都随机器启动，并配置进程异常后的恢复。
+Windows 任务计划程序可以用于 Nginx 的开机启动：
+  程序：项目内 tools\nginx-1.30.0\nginx.exe 的实际绝对路径
+  参数：-p ./ -c nginx.conf
+  起始于：项目实际目录，例如 E:\网站\ethan
+  触发器：系统启动
+  账户：能读取项目、写入 logs 的专用运行账户
+先用相同账户手动验证，再设置“无论用户是否登录都运行”。服务已经运行时不要重复启动。
+
+Caddy 按官方 Windows service 指南安装成服务，运行参数显式指定 Caddyfile 的绝对路径。
+保持证书状态目录可写，重启前后核对网站和证书。
+https://caddyserver.com/docs/running#windows-service
+
+重点查看：
+  logs\nginx-error.log
+  logs\nginx-access.log
+  logs\error.log
+日志需要定期归档或轮转，避免长期增长占满磁盘。
+更新前备份代码与配置；先检查配置再 reload。备份不应放到能被公网直接下载的目录。
+不要对 /api/v4/* 的 POST 查询设置统一缓存。头像服务自身也有缓存，换皮肤后不一定立即更新。
+
+八、本次稳定性检查结果
+
+已完成：
+  - 三份 BAT 完成真实启动、停止、再启动和配置重载验证，均正常退出。
+  - 遗留 PID 20892 确认对应进程不存在，已自动备份；保留变量冲突和空 PID 处理已修复。
+  - 当前本机正式端口的首页、About 和 /api/v4 均返回 200。
+  - 8 个前端 JavaScript 文件全部通过语法检查。
+  - 所有 HTML 页面中的本地资源引用均存在。
+  - Nginx 配置检查通过，相对路径可以正常使用。
+  - 实际启动独立测试端口，验证首页、About 和私有文件拦截。
+  - 模拟上游验证 API 路径改写、查询参数、POST 请求体和两个头像路径。
+  - 20 个并发首页请求全部返回 200；测试结束后正常关闭测试实例。
+  - 3 项玩家页面回归测试通过：同域头像及有限回退、HTTP 错误处理、旧版超时接口兼容。
+  - 真实反代 /api/v4 返回 200 和 JSON；本次响应约 298 毫秒。
+  - 真实主/备用头像反代均返回 200，PNG 签名正确；样例响应约 56/57 毫秒。
+  - 真实 POST 玩家查询成功返回 1stikun 的信息。
+  - 样例 Notch 的主头像内容与 Steve/Alex 默认头像均不同。
+
+上述耗时是一次本机检查结果，不能作为长期可用率或全国用户延迟保证。
+自动测试命令（仅测试需要安装 Node.js，正常开站不需要）：
+  Set-Location -LiteralPath 'E:\网站\ethan'
+  node --test tests/player-avatar.test.cjs tests/nginx-smoke.test.cjs
+自动 Nginx 测试使用独立回环端口和本地模拟上游，不占用正式 80 端口，也不会向第三方发送压力测试。
+
+仍需上线后验证：
+  - 公网域名、HTTPS、开机启动和持续运行，当前尚未实际部署。
+  - 国内不同运营商访问情况，以及你原本遇到问题的玩家头像。
+  - 当前首页脚本仍缺少请求失败提示；网络失败时可能继续显示“正在获取数据”。
+  - 城镇/国家查询尚未完整覆盖超时与异常返回测试。
+  - 当前 Nginx 上游 TLS 已配置 SNI，但仍未启用证书验证。生产部署时准备可信 CA 文件，并按 Nginx 文档设置 proxy_ssl_trusted_certificate 和 proxy_ssl_verify on，验证后再上线。
+  - 20 次本地并发检查不是长时间稳定性测试，也没有验证 Windows Nginx 的高负载容量。
+
+九、出问题时按什么顺序查
+
+本机主页打不开：先运行 nginx -t，检查 logs/error.log、端口占用与 PID，不要批量终止其他 Nginx。
+主页正常但查询失败：打开 /api/v4，检查反代日志、部署机器 DNS、上游 HTTPS 和返回状态。
+头像失败：检查 /avatar/实际UUID 和 /avatar-backup/实际UUID，确认 UUID 没有横线，确认正在通过 HTTP/HTTPS 访问。
+头像仍是默认人物：确认玩家本来有自定义皮肤，核对 EarthMC UUID 和上游缓存。默认人物本身也可能是玩家合法皮肤，不能仅凭图片判定网络错误。
+DNS 正确但公网打不开：检查公网 IP、云安全组、系统防火墙和 Caddy 是否正在监听 80/443。
+HTTPS 出错：检查域名解析、证书签发日志、入口端口和 Cloudflare 加密模式。
+重启后网站打不开：检查两个服务是否都启动，以及运行账户读取配置和写入日志的权限。

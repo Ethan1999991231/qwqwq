@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style/style-search.css?v=20260423-uiverse-1" rel="stylesheet">
+    <title>EarthMC 信息查询 - 玩家查询</title>
+</head>
+<body class="page-search">
+    <header id="pageHeader">
+        <h1>EarthMC 信息查询</h1>
+    </header>
+    <nav id="mainNav">
+        <a href="index.html">首页</a>
+        <a id="selected" href="players.html">玩家查询</a>
+        <a href="towns.html">城镇查询</a>
+        <a href="nations.html">国家查询</a>
+        <a href="about.html">关于</a>
+    </nav>
+    <main>
+        <section id="mainArea" aria-label="玩家搜索面板">
+            <nav id="searchNav">
+                <input id="pName" type="text" placeholder="输入玩家名称或 UUID" autocomplete="off" aria-label="玩家名称或 UUID">
+                <button id="searchButton" type="button" onclick="search()">查询玩家详情</button>
+            </nav>
+        </section>
+    </main>
+    <footer>
+        <p>by 1stikun · <a href="https://github.com/ncnjn123/" target="_blank" rel="noreferrer">GitHub</a></p>
+    </footer>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">正在查询玩家信息...</p>
+    </div>
+
+    <script src="javascript/js-players.js?v=20260422-2"></script>
+    <script src="javascript/effects.js?v=20260423-uiverse-1"></script>
+</body>
+</html>

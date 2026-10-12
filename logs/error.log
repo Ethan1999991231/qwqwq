@@ -1,0 +1,50 @@
+<<<<<<< HEAD
+2026/04/21 16:45:20 [emerg] 32804#32832: CreateFile() "D:\emc/conf/nginx.conf" failed (3: The system cannot find the path specified)
+=======
+2026/04/21 16:45:20 [emerg] 32804#32832: CreateFile() "D:\emc/conf/nginx.conf" failed (3: The system cannot find the path specified)
+>>>>>>> 955e83ff4b2ca7c274cce2f42e8868d5d638d783
+2026/04/22 18:26:25 [emerg] 77664#75528: unknown directive "<<<<<<<" in D:\emc/mime.types:3
+2026/04/22 18:30:51 [emerg] 75364#74900: unknown directive "<<<<<<<" in D:\emc/mime.types:3
+2026/04/22 18:33:25 [emerg] 71784#75808: CreateFile() "D:\emc/conf/nginx.conf" failed (3: The system cannot find the path specified)
+2026/04/22 18:33:38 [emerg] 66536#49428: unknown directive "<<<<<<<" in D:\emc/mime.types:3
+2026/04/22 18:33:57 [emerg] 77440#76224: unknown directive "<<<<<<<" in D:\emc/mime.types:3
+2026/04/22 18:33:59 [emerg] 50208#76132: unknown directive "<<<<<<<" in D:\emc/mime.types:3
+2026/04/22 18:34:27 [emerg] 76564#73512: unknown directive "﻿<<<<<<<" in D:\emc/mime.types:1
+2026/04/22 18:34:58 [emerg] 77520#74140: unknown directive "﻿" in D:\emc/mime.types:2
+2026/04/22 18:34:59 [emerg] 70352#64076: unknown directive "﻿" in D:\emc/mime.types:2
+2026/04/23 15:49:07 [emerg] 6436#12156: CreateFile() "D:\emc/conf/nginx.conf" failed (3: The system cannot find the path specified)
+2026/04/23 15:49:16 [emerg] 22828#8788: CreateFile() "D:\emc/conf/nginx.conf" failed (3: The system cannot find the path specified)
+2026/04/23 15:49:16 [emerg] 6976#21136: CreateFile() "D:\emc/conf/nginx.conf" failed (3: The system cannot find the path specified)
+2026/04/23 15:49:44 [emerg] 4436#3076: CreateFile() "D:\emc/conf/nginx.conf" failed (3: The system cannot find the path specified)
+2026/04/23 15:57:27 [notice] 6340#14244: signal process started
+2026/10/12 12:27:31 [emerg] 31676#4280: CreateFile() "./temp/earthmc-nginx-test-9Q4dFL/mime.types" failed (2: The system cannot find the file specified) in ./temp/earthmc-nginx-test-9Q4dFL/nginx.conf:9
+2026/10/12 12:27:41 [notice] 25076#15764: signal process started
+2026/10/12 12:38:10 [notice] 24624#34628: using inherited sockets from "tools\nginx-1.30.0\nginx.exe"
+2026/10/12 12:38:10 [emerg] 24624#34628: invalid socket number "tools\nginx-1.30.0\nginx.exe" in NGINX environment variable, ignoring
+2026/10/12 12:38:10 [notice] 32544#32504: using inherited sockets from "tools\nginx-1.30.0\nginx.exe"
+2026/10/12 12:38:10 [emerg] 32544#32504: invalid socket number "tools\nginx-1.30.0\nginx.exe" in NGINX environment variable, ignoring
+2026/10/12 12:38:10 [notice] 32544#32504: signal process started
+2026/10/12 12:38:10 [error] 32544#32504: OpenEvent("Global\ngx_reload_20892") failed (2: The system cannot find the file specified)
+2026/10/12 12:38:31 [notice] 10140#33612: signal process started
+2026/10/12 12:41:26 [notice] 32716#33596: signal process started
+2026/10/12 12:41:41 [notice] 10140#34620: using inherited sockets from "tools\nginx-1.30.0\nginx.exe"
+2026/10/12 12:41:41 [emerg] 10140#34620: invalid socket number "tools\nginx-1.30.0\nginx.exe" in NGINX environment variable, ignoring
+2026/10/12 12:41:41 [notice] 4516#17028: using inherited sockets from "tools\nginx-1.30.0\nginx.exe"
+2026/10/12 12:41:41 [emerg] 4516#17028: invalid socket number "tools\nginx-1.30.0\nginx.exe" in NGINX environment variable, ignoring
+2026/10/12 12:41:41 [notice] 4516#17028: signal process started
+2026/10/12 12:41:41 [error] 4516#17028: OpenEvent("Global\ngx_reload_20892") failed (2: The system cannot find the file specified)
+2026/10/12 12:41:55 [notice] 15516#33036: using inherited sockets from "tools\nginx-1.30.0\nginx.exe"
+2026/10/12 12:41:55 [emerg] 15516#33036: invalid socket number "tools\nginx-1.30.0\nginx.exe" in NGINX environment variable, ignoring
+2026/10/12 12:41:55 [notice] 31448#34032: using inherited sockets from "tools\nginx-1.30.0\nginx.exe"
+2026/10/12 12:41:55 [emerg] 31448#34032: invalid socket number "tools\nginx-1.30.0\nginx.exe" in NGINX environment variable, ignoring
+2026/10/12 12:41:56 [notice] 31448#34032: signal process started
+2026/10/12 12:41:56 [error] 31448#34032: OpenEvent("Global\ngx_reload_20892") failed (2: The system cannot find the file specified)
+2026/10/12 12:46:19 [notice] 31124#32772: signal process started
+2026/10/12 12:47:14 [notice] 31340#29920: signal process started
+2026/10/12 12:47:14 [error] 31340#29920: OpenEvent("Global\ngx_reload_20892") failed (2: The system cannot find the file specified)
+2026/10/12 12:49:37 [notice] 34664#25092: signal process started
+2026/10/12 12:51:56 [notice] 3448#29044: signal process started
+2026/10/12 12:51:57 [notice] 32948#30984: signal process started
+2026/10/12 12:55:42 [notice] 10084#5152: signal process started
+2026/10/12 12:55:42 [notice] 33996#29356: signal process started
+2026/10/12 12:55:58 [notice] 33816#19704: signal process started

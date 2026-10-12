@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style/style-detail.css?v=20260423-uiverse-1" rel="stylesheet">
+    <title>EarthMC 信息查询 - 玩家详情</title>
+</head>
+<body class="page-detail">
+    <header id="pageHeader">
+        <h1>EarthMC 信息查询</h1>
+    </header>
+    <nav id="mainNav">
+        <a href="index.html">首页</a>
+        <a id="selected" href="players.html">玩家查询</a>
+        <a href="towns.html">城镇查询</a>
+        <a href="nations.html">国家查询</a>
+        <a href="about.html">关于</a>
+    </nav>
+    <main>
+        <section id="searchPanel" aria-label="玩家搜索面板">
+            <nav id="searchNav">
+                <input id="pName" type="text" placeholder="输入玩家名称或 UUID" autocomplete="off" aria-label="玩家名称或 UUID">
+                <button id="searchButton" type="button" onclick="search()">查询玩家信息</button>
+            </nav>
+        </section>
+
+        <section id="mainArea" aria-live="polite">
+            <div id="cardHeader">
+                <img id="avatarImg" src="" alt="玩家头像">
+                <div id="cardTitle">
+                    <h1 id="name"></h1>
+                    <div id="uuid"></div>
+                    <div id="onlineBadge"><span class="dot"></span><span id="isOnline"></span></div>
+                </div>
+            </div>
+
+            <div id="statIcons">
+                <div class="stat-icon-card">
+                    <div class="stat-label">余额</div>
+                    <div class="stat-value" id="balance"></div>
+                </div>
+                <div class="stat-icon-card">
+                    <div class="stat-label">好友</div>
+                    <div class="stat-value" id="numFriends"></div>
+                </div>
+                <div class="stat-icon-card">
+                    <div class="stat-label">称号</div>
+                    <div class="stat-value" id="title"></div>
+                </div>
+            </div>
+
+            <div id="detailSections">
+                <div class="detail-card">
+                    <h2>玩家信息</h2>
+                    <div class="detail-row"><span class="label">姓氏</span><span class="value" id="surName"></span></div>
+                    <div class="detail-row"><span class="label">完整名称</span><span class="value" id="formattedName"></span></div>
+                    <div class="detail-row"><span class="label">个人简介</span><span class="value" id="about"></span></div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>所属组织</h2>
+                    <div class="detail-row"><span class="label">所属城镇</span><span class="value" id="townJoined"></span></div>
+                    <div class="detail-row"><span class="label">所属国家</span><span class="value" id="nationJoined"></span></div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>活跃时间</h2>
+                    <div class="detail-row"><span class="label">注册时间</span><span class="value" id="registered"></span></div>
+                    <div class="detail-row"><span class="label">加入城镇</span><span class="value" id="joinedTownAt"></span></div>
+                    <div class="detail-row"><span class="label">最后在线</span><span class="value" id="lastOnline"></span></div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>身份状态</h2>
+                    <div class="detail-row"><span class="label">NPC</span><span class="value" id="isNPC"></span></div>
+                    <div class="detail-row"><span class="label">是否市长</span><span class="value" id="isMayor"></span></div>
+                    <div class="detail-row"><span class="label">是否国王</span><span class="value" id="isKing"></span></div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>职位信息</h2>
+                    <div class="detail-row"><span class="label">城镇职位</span><span class="value" id="townRanks"></span></div>
+                    <div class="detail-row"><span class="label">国家职位</span><span class="value" id="nationRanks"></span></div>
+                </div>
+
+                <div class="table-card">
+                    <h2>好友列表</h2>
+                    <table id="friendsList">
+                        <thead>
+                            <tr>
+                                <th>好友名称</th>
+                                <th>好友 UUID</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>by 1stikun · <a href="https://github.com/ncnjn123/" target="_blank" rel="noreferrer">GitHub</a></p>
+    </footer>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">正在查询玩家信息...</p>
+    </div>
+
+    <script src="javascript/js-playersearch.js?v=20261012-1"></script>
+    <script src="javascript/effects.js?v=20260423-uiverse-1"></script>
+</body>
+</html>

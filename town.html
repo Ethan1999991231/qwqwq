@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style/style-detail.css?v=20260423-uiverse-1" rel="stylesheet">
+    <title>EarthMC 信息查询 - 城镇详情</title>
+</head>
+<body class="page-detail">
+    <header id="pageHeader">
+        <h1>EarthMC 信息查询</h1>
+    </header>
+    <nav id="mainNav">
+        <a href="index.html">首页</a>
+        <a href="players.html">玩家查询</a>
+        <a id="selected" href="towns.html">城镇查询</a>
+        <a href="nations.html">国家查询</a>
+        <a href="about.html">关于</a>
+    </nav>
+    <main>
+        <section id="searchPanel" aria-label="城镇搜索面板">
+            <nav id="searchNav">
+                <input id="tName" type="text" placeholder="输入城镇名称或 UUID" autocomplete="off" aria-label="城镇名称或 UUID">
+                <button id="searchButton" type="button" onclick="search()">查询城镇信息</button>
+            </nav>
+        </section>
+
+        <section id="mainArea" aria-live="polite">
+            <div id="cardHeader">
+                <div id="cardIcon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 21V9L12 3L21 9V21H15V14H9V21H3Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div id="cardTitle">
+                    <h1 id="name"></h1>
+                    <div id="uuid"></div>
+                    <div id="onlineBadge">
+                        <span class="online-dot" id="isPublicDot"></span>
+                        <span id="isPublicLabel"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="statIcons">
+                <div class="stat-icon-card">
+                    <div class="stat-label">区块</div>
+                    <div class="stat-value" id="numTownBlocks"></div>
+                </div>
+                <div class="stat-icon-card">
+                    <div class="stat-label">居民</div>
+                    <div class="stat-value" id="numResidents"></div>
+                </div>
+                <div class="stat-icon-card">
+                    <div class="stat-label">余额</div>
+                    <div class="stat-value" id="balance"></div>
+                </div>
+            </div>
+
+            <div id="detailSections">
+                <div id="board">
+                    <h2>城镇公告</h2>
+                    <textarea id="boardText" readonly></textarea>
+                </div>
+
+                <div class="detail-card">
+                    <h2>基础信息</h2>
+                    <div class="detail-row"><span class="label">创建者</span><span class="value" id="founder"></span></div>
+                    <div class="detail-row"><span class="label">市长</span><span class="value" id="mayor"></span></div>
+                    <div class="detail-row"><span class="label">所属国家</span><span class="value" id="nation"></span></div>
+                    <div class="detail-row"><span class="label">创建时间</span><span class="value" id="registered"></span></div>
+                    <div class="detail-row"><span class="label">加入国家</span><span class="value" id="joinedNationAt"></span></div>
+                    <div class="detail-row" id="ruinedAtRow"><span class="label">Ruined At</span><span class="value" id="ruinedAt"></span></div>
+                    <div class="detail-row"><span class="label">Wiki</span><span class="value" id="wiki"></span></div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>城镇状态</h2>
+                    <div class="detail-row"><span class="label">是否公开</span><span class="value" id="isPublic"></span></div>
+                    <div class="detail-row"><span class="label">是否开放</span><span class="value" id="isOpen"></span></div>
+                    <div class="detail-row"><span class="label">是否中立</span><span class="value" id="isNeutral"></span></div>
+                    <div class="detail-row"><span class="label">是否首都</span><span class="value" id="Capital"></span></div>
+                    <div class="detail-row"><span class="label">是否 Overclaim</span><span class="value" id="isOverClaimed"></span></div>
+                    <div class="detail-row"><span class="label">Overclaim 保护</span><span class="value" id="hasOverclaimShield"></span></div>
+                    <div class="detail-row"><span class="label">是否废墟</span><span class="value" id="isRuined"></span></div>
+                    <div class="detail-row"><span class="label">是否出售</span><span class="value" id="isForSale"></span></div>
+                    <div class="detail-row"><span class="label">是否加入国家</span><span class="value" id="hasNation"></span></div>
+                    <div class="detail-row" id="forSalePriceRow"><span class="label">售价</span><span class="value" id="forSalePrice"></span></div>
+                    <div class="detail-row"><span class="label">允许外来者传送</span><span class="value" id="canOutsidersSpawn"></span></div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>统计数据</h2>
+                    <div class="detail-row"><span class="label">区块数量</span><span class="value" id="numTownBlocksDetail"></span></div>
+                    <div class="detail-row"><span class="label">区块上限</span><span class="value" id="maxTownBlocks"></span></div>
+                    <div class="detail-row"><span class="label">居民数量</span><span class="value" id="numResidentsDetail"></span></div>
+                    <div class="detail-row"><span class="label">受信任玩家</span><span class="value" id="numTrusted"></span></div>
+                    <div class="detail-row"><span class="label">通缉玩家</span><span class="value" id="numOutlaws"></span></div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>权限设置</h2>
+                    <div class="detail-row">
+                        <span class="label">开关</span>
+                        <div class="value">
+                            <div class="flags-row">
+                                <span class="flag-tag"><span class="flag-name">PVP</span><span class="flag-status" id="pvp"></span></span>
+                                <span class="flag-tag"><span class="flag-name">爆炸</span><span class="flag-status" id="explosion"></span></span>
+                                <span class="flag-tag"><span class="flag-name">火焰蔓延</span><span class="flag-status" id="fire"></span></span>
+                                <span class="flag-tag"><span class="flag-name">生物生成</span><span class="flag-status" id="mobs"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card" id="coordinates">
+                    <h2>坐标信息</h2>
+                    <div class="detail-row">
+                        <span class="label">传送点</span>
+                        <div class="value">
+                            <span class="coord-block"><span class="axis">X</span><span class="val" id="spawn-x"></span></span>
+                            <span class="coord-block"><span class="axis">Y</span><span class="val" id="spawn-y"></span></span>
+                            <span class="coord-block"><span class="axis">Z</span><span class="val" id="spawn-z"></span></span>
+                            <a id="mapLink" href="#" target="_blank" rel="noreferrer">在地图上查看</a>
+                        </div>
+                    </div>
+                    <div class="detail-row"><span class="label">Home 区块</span><span class="value" id="homeBlock"></span></div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>职位信息</h2>
+                    <div class="detail-row"><span class="label">议员</span><span class="value" id="Councillor"></span></div>
+                    <div class="detail-row"><span class="label">建筑师</span><span class="value" id="Builder"></span></div>
+                    <div class="detail-row"><span class="label">招募员</span><span class="value" id="Recruiter"></span></div>
+                    <div class="detail-row"><span class="label">警察</span><span class="value" id="Police"></span></div>
+                    <div class="detail-row"><span class="label">免税者</span><span class="value" id="Tax-exempt"></span></div>
+                    <div class="detail-row"><span class="label">财政官</span><span class="value" id="Treasurer"></span></div>
+                    <div class="detail-row"><span class="label">地产经纪</span><span class="value" id="Realtor"></span></div>
+                    <div class="detail-row"><span class="label">定居者</span><span class="value" id="Settler"></span></div>
+                </div>
+
+                <div class="table-card">
+                    <h2>居民列表</h2>
+                    <table id="residentsTable">
+                        <thead>
+                            <tr>
+                                <th>居民名称</th>
+                                <th>居民 UUID</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>by 1stikun · <a href="https://github.com/ncnjn123/" target="_blank" rel="noreferrer">GitHub</a></p>
+    </footer>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">正在查询城镇信息...</p>
+    </div>
+
+    <script src="javascript/js-townsearch.js?v=20260422-2"></script>
+    <script src="javascript/effects.js?v=20260423-uiverse-1"></script>
+</body>
+</html>
