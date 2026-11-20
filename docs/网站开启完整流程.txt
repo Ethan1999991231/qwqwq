@@ -81,6 +81,15 @@ https://help.aliyun.com/zh/icp-filing/basic-icp-service/getting-started/quick-st
 /api/v4/players 会去掉 /api 前缀，转发为上游 /v4/players，保留查询参数、HTTP 方法和 JSON 请求体。
 动态上游域名通过 resolver 解析，DNS 缓存有效期为 300 秒；DNS 服务器必须在部署机器上可用。
 API 的连接超时为 10 秒，发送和读取超时为 30 秒。
+EarthMC 现在要求每个 API 请求带 Authorization: Bearer <API Key>，没有就返回 401。
+现在站点走「访客自带 Key」：
+  apikey.html 是入口页，填 Key 后向 /api/v4 验一次，通过才进站，其他页面没 Key 会自动跳回它。
+  Key 存在 sessionStorage（键名 earthmc_api_key），只属于当前标签页，关标签页即清除，不写 cookie、不进网址。
+  javascript/js-apikey-guard.js 负责两件事：没 Key 就跳回入口页；给 /api/ 请求自动加 Authorization；
+  上游返回 401 时清掉 Key 再跳回入口页重新填写。页面右下角有「更换 Key」按钮。
+  nginx.conf 的 map $http_authorization $earthmc_authorization 只做透传，仓库里不保存任何 Key。
+  真要给没带 Key 的请求兜底：nginx 用注释里那版 map，Cloudflare 给 Worker 配环境变量 EARTHMC_API_KEY。
+  排查 401：浏览器 F12 看请求头有没有 Authorization；服务端 401 一律表示上游不认这把 Key。
 头像连接超时为 5 秒，读取超时为 10 秒；主接口失败后只尝试一次备用接口。
 上游读取超时是两次读取之间的超时，并不是整个下载一定在对应秒数内结束。
 玩家查询前端另外设置了 35 秒请求总超时，HTTP 错误会显示失败提示并恢复查询按钮。
