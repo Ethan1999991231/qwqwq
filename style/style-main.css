@@ -503,4 +503,59 @@ footer a:hover {
   button {
     width: 100%;
   }
+
+  /* 浮动按钮自己管宽度，别被上面的通栏规则撑满 */
+  .apikey-switch {
+    width: auto;
+  }
+}
+
+/* 「更换 Key」浮动按钮：固定右下角，小块宽，不跟内容抢位置 */
+.apikey-switch {
+  position: fixed;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  z-index: 60;
+  width: auto;
+  min-width: 0;
+  max-width: calc(100vw - 2rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--primary-strong);
+  font-family: var(--body-font);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.apikey-switch:hover {
+  transform: translateY(-1px);
+  background: #ffffff;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.2);
+}
+
+.apikey-switch:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .apikey-switch {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: auto;
+    padding: 0.42rem 0.72rem;
+    font-size: 0.76rem;
+  }
 }

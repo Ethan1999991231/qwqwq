@@ -1,0 +1,15 @@
+# 本地调试产物
+_local.conf
+_local2.conf
+_local3.conf
+temp/
+logs/
+*.log
+
+# 本机工具链（跑自动测试需自备 nginx，见 docs/网站开启完整流程.txt）
+tools/
+
+# 编辑器 / 系统
+node_modules/
+.DS_Store
+Thumbs.db

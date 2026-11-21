@@ -80,13 +80,8 @@
         button.id = 'apiKeySwitch';
         button.type = 'button';
         button.textContent = '更换 Key';
-        button.style.cssText = [
-            'position:fixed', 'right:1rem', 'bottom:1rem', 'z-index:60',
-            'padding:0.55rem 0.95rem', 'border-radius:999px',
-            'border:1px solid rgba(37,99,235,0.35)', 'background:rgba(255,255,255,0.94)',
-            'color:#1d4ed8', 'font:inherit', 'font-size:0.85rem', 'cursor:pointer',
-            'box-shadow:0 10px 24px rgba(15,23,42,0.16)', 'backdrop-filter:blur(8px)'
-        ].join(';');
+        button.className = 'apikey-switch';
+        button.title = '清掉这个标签页里的 Key，重新填一个';
         button.addEventListener('click', function () {
             clearKey();
             window.location.href = gateUrl();

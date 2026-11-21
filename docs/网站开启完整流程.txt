@@ -199,7 +199,7 @@ https://caddyserver.com/docs/running#windows-service
 上述耗时是一次本机检查结果，不能作为长期可用率或全国用户延迟保证。
 自动测试命令（仅测试需要安装 Node.js，正常开站不需要）：
   Set-Location -LiteralPath 'E:\网站\ethan'
-  node --test tests/player-avatar.test.cjs tests/nginx-smoke.test.cjs
+  node --test tests/player-avatar.test.cjs tests/nginx-smoke.test.cjs tests/admin-page.test.cjs
 自动 Nginx 测试使用独立回环端口和本地模拟上游，不占用正式 80 端口，也不会向第三方发送压力测试。
 
 仍需上线后验证：
@@ -219,3 +219,23 @@ https://caddyserver.com/docs/running#windows-service
 DNS 正确但公网打不开：检查公网 IP、云安全组、系统防火墙和 Caddy 是否正在监听 80/443。
 HTTPS 出错：检查域名解析、证书签发日志、入口端口和 Cloudflare 加密模式。
 重启后网站打不开：检查两个服务是否都启动，以及运行账户读取配置和写入日志的权限。
+
+十、管理员页面（admin.html）
+
+地址：https://你的域名/admin.html
+导航栏里没有入口，只能直接输网址进入；页面带 noindex，不会被搜索引擎收录。
+进去先输口令。口令只在这个页面里比对，不发给服务器——它是门帘，不是安全认证：
+任何人查看 admin.js 源码都能看到它，所以这页别放真正敏感的东西。
+
+进去后有三块：
+
+  服务器状态：实时请求 /api/v4，显示版本、在线人数、服务器天数、月相、天气、VoteParty，
+              以及这次请求的 HTTP 状态码和耗时。用的是这个浏览器标签页里已经填好的 Key；
+              没填过 Key 时会显示「401 · 没带有效 Key」，先去 apikey.html 填一把。
+  节点状态：当前访问落在哪个 CDN 节点（Cloudflare 时显示 colo 与地区）、协议与 TLS 版本、
+              站点服务器标识，以及 /api/v4、/apikey.html、/about.html 三个端点的状态与延迟。
+              没有走 Cloudflare（比如本地 nginx 直连）时会显示「不是 Cloudflare」。
+  存储：浏览器站点配额与已用量、localStorage 与 sessionStorage 的条目数和体积、
+        API Key 是否已保存（只显示前后各四位）、本次加载资源的体积。
+
+面板每 30 秒自动刷新一次（页面在后台时暂停）；「刷新」立刻重取，「退出」清掉本次解锁状态并回到口令框。
